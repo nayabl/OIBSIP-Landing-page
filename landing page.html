@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Brand — Simple Landing Page</title>
+  <style>
+    /* =====================
+       0) BASE & THEME
+       ===================== */
+    :root {
+      --bg: #0f172a;         /* page background */
+      --surface: #111827;    /* section surfaces */
+      --text: #e5e7eb;       /* primary text */
+      --muted: #94a3b8;      /* secondary text */
+      --accent: #6366f1;     /* main brand color */
+      --accent-2: #22c55e;   /* secondary accent */
+      --shadow: 0 10px 25px rgba(0,0,0,.15);
+    }
+
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      line-height: 1.6;
+      color: var(--text);
+      background: linear-gradient(180deg, #0b1220 0%, #0f172a 60%, #111827 100%);
+    }
+
+    img { max-width: 100%; display: block; height: auto; }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
+
+    .container { width: min(1100px, 90%); margin: 0 auto; }
+    .section { padding: 72px 0; }
+
+    /* Utilities */
+    .grid { display: grid; gap: 24px; }
+    .flex { display: flex; align-items: center; gap: 16px; }
+
+    .btn {
+      background: var(--accent);
+      color: white;
+      border: 0;
+      padding: 12px 18px;
+      border-radius: 14px;
+      box-shadow: var(--shadow);
+      cursor: pointer;
+    }
+    .btn.secondary { background: transparent; outline: 1px solid rgba(255,255,255,.2); }
+    .btn:focus-visible { outline: 3px solid #fff; outline-offset: 2px; }
+
+    /* =====================
+       1) ACCESSIBILITY
+       ===================== */
+    .skip-link {
+      position: absolute; left: -9999px; top: auto;
+    }
+    .skip-link:focus {
+      left: 16px; top: 16px; background: #000; color: #fff;
+      padding: 8px 12px; z-index: 9999; border-radius: 8px;
+    }
+
+    /* =====================
+       2) HEADER & NAV
+       ===================== */
+    .header {
+      position: sticky; top: 0;
+      backdrop-filter: blur(8px);
+      background: rgba(17,24,39,.7);
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      z-index: 50;
+    }
+    .nav { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; }
+    .brand { font-weight: 700; letter-spacing: .5px; }
+    .nav-links { display: flex; gap: 20px; }
+    .nav-links a { opacity: .9; }
+    .nav-links a:hover { opacity: 1; }
+
+    .hamburger { display: none; background: transparent; border: 0; width: 44px; height: 44px; border-radius: 8px; color: var(--text); }
+
+    @media (max-width: 720px) {
+      .nav-links {
+        display: none;
+        position: absolute; top: 60px; right: 5%;
+        background: rgba(17,24,39,.95);
+        border: 1px solid rgba(255,255,255,.06);
+        padding: 14px; border-radius: 12px;
+        flex-direction: column; min-width: 200px;
+      }
+      .nav-links.open { display: flex; }
+      .hamburger { display: block; }
+    }
+
+    /* =====================
+       3) HERO
+       ===================== */
+    .hero { padding: 96px 0 72px; }
+    .hero .container {
+      display: grid; gap: 32px; grid-template-columns: 1.1fr .9fr; align-items: center;
+    }
+    .hero h1 { font-size: clamp(28px, 5vw, 42px); line-height: 1.2; margin: 0 0 12px; }
+    .hero p { color: var(--muted); margin: 0 0 16px; }
+    .hero .actions { display: flex; gap: 12px; flex-wrap: wrap; }
+    .mockup { border-radius: 16px; overflow: hidden; border: 1px solid rgba(255,255,255,.08); box-shadow: var(--shadow); }
+
+    /* =====================
+       4) FEATURES GRID
+       ===================== */
+    .features .grid { grid-template-columns: repeat(3, 1fr); }
+
+    /* =====================
+       5) CARDS
+       ===================== */
+    .card { background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.06); border-radius: 16px; padding: 20px; box-shadow: var(--shadow); }
+    .card h3 { margin: 0 0 8px; font-size: 18px; }
+    .card p { margin: 0; color: var(--muted); }
+
+    /* =====================
+       6) TESTIMONIALS
+       ===================== */
+    .testimonials .grid { grid-template-columns: repeat(3, 1fr); }
+    .quote { font-size: 15px; margin: 0 0 12px; }
+    .author { font-weight: 600; font-size: 14px; }
+
+    /* =====================
+       7) CTA BLOCKS
+       ===================== */
+    .cta { text-align: center; background: linear-gradient(120deg, rgba(99,102,241,.15), rgba(34,197,94,.15)); border: 1px solid rgba(255,255,255,.08); border-radius: 20px; padding: 36px; }
+    .cta h2 { margin-top: 0; }
+
+    /* =====================
+       8) FOOTER
+       ===================== */
+    .footer { padding: 36px 0; border-top: 1px solid rgba(255,255,255,.08); color: var(--muted); font-size: 14px; }
+
+    /* =====================
+       9) RESPONSIVE
+       ===================== */
+    @media (max-width: 900px) {
+      .hero .container { grid-template-columns: 1fr; }
+      .features .grid { grid-template-columns: 1fr 1fr; }
+      .testimonials .grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 560px) {
+      .features .grid { grid-template-columns: 1fr; }
+      .testimonials .grid { grid-template-columns: 1fr; }
+    }
+
+    /* Ensure in-page anchor doesn't hide behind sticky header */
+    #demo { scroll-margin-top: 100px; }
+  </style>
+  <script>
+    function toggleNav() {
+      const nav = document.querySelector('.nav-links');
+      const btn = document.querySelector('.hamburger');
+      const isOpen = nav.classList.toggle('open');
+      btn.setAttribute('aria-expanded', String(isOpen));
+    }
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="header" role="banner">
+    <div class="container nav">
+      <div class="brand">Brand</div>
+      <nav aria-label="Main">
+        <button class="hamburger" aria-expanded="false" aria-controls="primary-nav" onclick="toggleNav()" aria-label="Toggle navigation">☰</button>
+        <div id="primary-nav" class="nav-links">
+          <a href="#features">Features</a>
+          <a href="#demo">Demo</a>
+          <a href="#testimonials">Testimonials</a>
+          <a href="#contact">Contact</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- HERO -->
+    <section class="hero section" id="home">
+      <div class="container">
+        <div class="copy">
+          <h1>Create a clean landing page with HTML &amp; CSS</h1>
+          <p>Perfect for beginners. Practice columns, sections, alignment, spacing, and color without elements overlapping.</p>
+          <div class="actions">
+            <a href="#demo" class="btn">For Demo Click</a>
+            <a href="#features" class="btn secondary">Explore Features</a>
+          </div>
+        </div>
+        <div class="mockup" aria-hidden="true">
+          <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1200&auto=format&fit=crop" alt="App preview mockup" />
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section class="features section" id="features">
+      <div class="container">
+        <h2>What you'll build</h2>
+        <div class="grid">
+          <article class="card">
+            <h3>Responsive Layout</h3>
+            <p>Use Grid &amp; Flexbox to create columns that stack on mobile.</p>
+          </article>
+          <article class="card">
+            <h3>Clean Sections</h3>
+            <p>Organize content with clear spacing, headings, and cards.</p>
+          </article>
+          <article class="card">
+            <h3>Accessible UI</h3>
+            <p>Semantic HTML, focus styles, and readable contrast.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- DEMO / CTA -->
+    <section class="section" id="demo">
+      <div class="container">
+        <div class="cta">
+          <h2>Live Demo Area</h2>
+          <p>Use this as the "For Demo Click" destination. Replace with your product video, screenshots, or interactive content.</p>
+          <a class="btn" href="#contact">Get Started</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="testimonials section" id="testimonials">
+      <div class="container">
+        <h2>What learners say</h2>
+        <div class="grid">
+          <article class="card"><p class="quote">“I finally understand CSS spacing and alignment.”</p><div class="author">Aarav</div></article>
+          <article class="card"><p class="quote">“The grid layout made everything click for me.”</p><div class="author">Diya</div></article>
+          <article class="card"><p class="quote">“Clean, simple, and easy to follow.”</p><div class="author">Ishan</div></article>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT / CTA -->
+    <section class="section" id="contact">
+      <div class="container">
+        <div class="cta">
+          <h2>Ready to build yours?</h2>
+          <p>Clone this starter and customize the colors, spacing, and components.</p>
+          <a class="btn" href="#home">Back to top</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">© 2025 Brand. Built with pure HTML &amp; CSS. No frameworks.</div>
+  </footer>
+</body>
+</html>
